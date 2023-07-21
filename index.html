@@ -1,30 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Ionic App</title>
-    
-    <base href="/" />
-    
-    <meta name="color-scheme" content="light dark" />
-    <meta
-      name="viewport"
-      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
-    
-    <link rel="manifest" href="/manifest.json" />
-    
-    <link rel="shortcut icon" type="image/png" href="/favicon.png" />
-    
-    <!-- add to homescreen for ios -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="Ionic App" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRIMME MAXTRON SERIES DECODER</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #fff;
+            padding-top: 50px;
+        }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .output-card {
+            display: none;
+        }
+        .center-element {
+            align-self: flex-end;
+            padding: 20px;
+            flex-shrink: 0;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">GRIMME MAXTRON SERIES DECODER</h1>
+        <form>
+            <div class="form-group">
+                <label for="inputChars">Enter the 6-digit service code:</label>
+                <input type="text" class="form-control" id="inputChars" name="inputChars" maxlength="6" pattern="[0-9]{6}" required>
+            </div>
+            <button type="button" class="btn btn-primary btn-block" onclick="calculateOutput()">Submit</button>
+        </form>
+
+        <div class="output-card mt-3 alert alert-success">
+            Output: <span id="outputResult"></span>
+            <button id="hideButton" type="button" class="close" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function calculateOutput() {
+            var inputChars = document.getElementById("inputChars").value;
+            if (inputChars.length === 6) {
+                // Get each character separately
+                var charsArray = inputChars.split("");
+
+                // Calculate the sum of all characters
+                var sum = charsArray.reduce(function(acc, val) {
+                    return parseInt(acc) + parseInt(val);
+                }, 0);
+
+                // Convert the sum to a 2-character string
+                var sumString = ("0" + sum).slice(-2);
+
+                // Get the first digit of the input characters
+                var firstDigit = charsArray[0];
+
+                // Combine the first digit and the last two digits of the sum
+                var output = firstDigit + sumString;
+
+                // Display the output
+                document.getElementById("outputResult").textContent = output;
+                document.querySelector(".output-card").style.display = "block";
+            } else {
+                alert("Please enter a 6-digit number.");
+            }
+        }
+
+        document.getElementById("hideButton").addEventListener("click", function() {
+            document.querySelector(".output-card").style.display = "none";
+        });
+    </script>
+</body>
+<center class="center-element">
+        <h6><strong>Made with ♥️ by Mustafa Eren Güneş</strong></h6>
+    </center>
 </html>
